@@ -77,7 +77,7 @@ const GoogleSignIn: React.FC = () => {
 
     const handleCustomSignIn = () => {
         const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-        const redirectUri = 'http://localhost:5173/auth/callback';
+        const redirectUri = `${import.meta.env.VITE_FRONTEND_URL}/auth/callback`;
         const scope = 'email profile openid';
         const responseType = 'code';
 
