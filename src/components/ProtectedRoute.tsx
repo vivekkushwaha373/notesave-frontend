@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom'
-import { AuthContext, useAuth } from '../contexts/AuthContext'
+import { AuthContext} from '../contexts/AuthContext'
 import LoadingSpinner from './LoadingSpinner'
 import { useContext } from 'react'
 

@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
-import { AuthContext, useAuth } from '../contexts/AuthContext'
+import { AuthContext} from '../contexts/AuthContext'
 import { api } from '../utils/api'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -18,14 +18,14 @@ interface Note {
 }
 
 const Dashboard = () => {
-    const [myuser, setmyuser] = useState<any>(null);
+   
     const auth = useContext(AuthContext);
     
         if (!auth) {
             throw new Error("AuthContext not found. Did you forget to wrap your component in <AuthProvider>?");
         }
     
-    const {user,logout,login} = auth;
+    const {user,logout} = auth;
 
 
 
@@ -68,29 +68,8 @@ const Dashboard = () => {
         }
     }
 
-    const searchNotes = async (query: string) => {
-        if (!query.trim()) {
-            fetchNotes()
-            return
-        }
+  
 
-        setIsLoading(true)
-        try {
-            const response = await api.get(`/notes/search?q=${encodeURIComponent(query)}`,{withCredentials: true})
-            if (response.data.success) {
-                setNotes(response.data.data.notes)
-            }
-        } catch (error: any) {
-            toast.error('Search failed')
-        } finally {
-            setIsLoading(false)
-        }
-    }
-
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault()
-        searchNotes(searchQuery)
-    }
 
     const onCreateNote = async (data: NoteFormData) => {
         setIsCreating(true)

@@ -10,7 +10,7 @@ import { signUpSchema, otpSchema } from '../utils/validation'
 import type { SignUpFormData, OtpFormData } from '../utils/validation'
 import { AuthContext} from '../contexts/AuthContext'
 import GoogleSignIn from '../components/GoogleSignIn'
-import axios from 'axios'
+
 
 const SignUp = () => {
     const [step, setStep] = useState<'signup' | 'otp'>('signup')
