@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -7,14 +7,20 @@ import toast from 'react-hot-toast'
 import { api } from '../utils/api'
 import { signInSchema } from '../utils/validation'
 import type { SignInFormData } from '../utils/validation'
-import { useAuth } from '../contexts/AuthContext'
+import { AuthContext} from '../contexts/AuthContext'
 import GoogleSignIn from '../components/GoogleSignIn'
 
 const SignIn = () => {
     const [showPassword, setShowPassword] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [rememberMe, setRememberMe] = useState(false)
-    const { login } = useAuth()
+    const auth = useContext(AuthContext);
+
+    if (!auth) {
+        throw new Error("AuthContext not found. Did you forget to wrap your component in <AuthProvider>?");
+    }
+
+    const { login, user } = auth;
     const navigate = useNavigate()
 
     const form = useForm<SignInFormData>({
@@ -25,12 +31,20 @@ const SignIn = () => {
         },
     })
 
+    useEffect(() => {
+        if (user)
+        {
+            navigate('/dashboard')
+        }
+    },[user])
+
     const onSubmit = async (data: SignInFormData) => {
         setIsLoading(true)
         try {
-            const response = await api.post('/auth/login', data)
+            const response = await api.post('/auth/login', data, {withCredentials: true})
             if (response.data.success) {
-                login(response.data.token, response.data.data.user)
+                console.log('Sign in response:', response)
+                login(response?.data?.data?.user)
                 toast.success('Successfully signed in!')
                 navigate('/dashboard')
             }
@@ -42,18 +56,18 @@ const SignIn = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 flex">
+        <div className=" w-full min-h-screen bg-gray-50 flex">
             {/* Left Panel */}
             <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
                 <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
                     {/* Logo */}
-                    <div className="flex items-center gap-2 mb-8">
+                    <div className="flex w-full items-center justify-center sm:justify-start gap-2 mb-8">
                         <img src="/logo.png" alt="HD" className="w-8 h-8" />
                         <span className="text-xl font-semibold text-gray-900">HD</span>
                     </div>
 
                     <div className="mb-8">
-                        <h2 className="text-3xl text-left font-bold text-gray-900 mb-2">Sign in</h2>
+                        <h2 className="text-3xl sm:text-left font-bold text-gray-900 mb-2">Sign in</h2>
                         <p className="text-gray-500 text-left text-sm">
                             Please login to continue to your account.
                         </p>
@@ -64,6 +78,7 @@ const SignIn = () => {
                             <fieldset className="border border-blue-500 rounded-lg px-4 pt-2 pb-4 ml-0">
                                 <legend className="text-sm font-medium text-left text-blue-600 px-2">Email</legend>
                                 <input
+                                    {...form.register('email')}
                                     type="email"
                                     placeholder="jonas_kahnwald@gmail.com"
                                     className="w-full border-none outline-none focus:ring-0 text-sm text-gray-700"
