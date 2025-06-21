@@ -1,54 +1,148 @@
-# React + TypeScript + Vite
+# Notes App Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive note-taking application frontend built with React, TypeScript, and Vite. This frontend connects to the Notes App Backend API to provide a complete note-taking experience.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Modern UI/UX**: Clean, responsive design that works on desktop and mobile
+- **Authentication**: 
+  - Email/Password registration with OTP verification
+  - Google OAuth 2.0 integration
+  - JWT-based authentication
+- **Notes Management**: Create, search, and delete notes
+- **Real-time Validation**: Form validation with error handling
+- **Responsive Design**: Mobile-first approach with desktop optimization
+- **Toast Notifications**: User-friendly success/error messages
 
-## Expanding the ESLint configuration
+## Technology Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Frontend Framework**: React 18 with TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **Routing**: React Router v6
+- **Forms**: React Hook Form with Zod validation
+- **HTTP Client**: Axios
+- **Icons**: Lucide React
+- **Notifications**: React Hot Toast
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Prerequisites
+
+- Node.js (v18 or higher)
+- npm or yarn
+- Backend API running (see backend README)
+
+## Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd notes-app-frontend
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Environment Setup**
+   ```bash
+   cp .env.example .env
+   ```
+
+4. **Configure environment variables**
+   Edit `.env` file:
+   ```env
+   VITE_API_BASE_URL=http://localhost:5000/api
+   VITE_GOOGLE_CLIENT_ID=your-google-client-id
+   ```
+
+## Development
+
+1. **Start development server**
+   ```bash
+   npm run dev
+   ```
+   The app will be available at `http://localhost:3000`
+
+2. **Build for production**
+   ```bash
+   npm run build
+   ```
+
+3. **Preview production build**
+   ```bash
+   npm run preview
+   ```
+
+## Project Structure
+
+```
+src/
+├── components/          # Reusable components
+│   ├── GoogleSignIn.tsx
+│   ├── LoadingSpinner.tsx
+│   └── ProtectedRoute.tsx
+├── contexts/           # React contexts
+│   └── AuthContext.tsx
+├── pages/             # Page components
+│   ├── Dashboard.tsx
+│   ├── SignIn.tsx
+│   └── SignUp.tsx
+├── utils/             # Utility functions
+│   ├── api.ts
+│   └── validation.ts
+├── App.tsx
+├── main.tsx
+└── index.css
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Features Overview
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Authentication
+- **Sign Up**: User registration with email verification via OTP
+- **Sign In**: Login with email/password or Google OAuth
+- **Google OAuth**: One-click sign in with Google account
+- **Protected Routes**: JWT-based route protection
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+### Dashboard
+- **Welcome Section**: Displays user information
+- **Create Notes**: Modal form for creating new notes
+- **Notes List**: Display all user notes with delete functionality
+- **Search**: Real-time search through notes
+- **Responsive Design**: Works seamlessly on mobile and desktop
+
+### Form Validation
+- **Zod Schema**: Type-safe validation schemas
+- **Real-time Validation**: Instant feedback on form inputs
+- **Error Handling**: Comprehensive error messages
+
+## API Integration
+
+The frontend integrates with the backend API through:
+
+- **Authentication Endpoints**: `/auth/register`, `/auth/login`, `/auth/google`
+- **Notes Endpoints**: `/notes` (CRUD operations)
+- **Search Endpoint**: `/notes/search`
+- **JWT Token Management**: Automatic token attachment to requests
+
+## Responsive Design
+
+The application is fully responsive with:
+- **Mobile-first approach**: Optimized for mobile devices
+- **Desktop enhancement**: Enhanced UI for larger screens
+- **Flexible layouts**: Adapts to different screen sizes
+- **Touch-friendly**: Optimized for touch interactions
+
+## Environment Variables
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `VITE_API_BASE_URL` | Backend API base URL | `http://localhost:5000/api` |
+| `VITE_GOOGLE_CLIENT_ID` | Google OAuth client ID | `your-google-client-id` |
+
+## Error Handling
+
+- **Network Errors**: Handled with toast notifications
+- **Validation Errors**: Real-time form validation
+- **Authentication Errors**: Automatic redirect to login
+- **API Errors**: User-friendly error messages
