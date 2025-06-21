@@ -6,4 +6,13 @@ export default defineConfig({
   plugins: [react(),
     tailwindcss()
   ],
+ 
+  server: {
+    headers: {
+      'Cross-Origin-Embedder-Policy': 'unsafe-none'
+    }
+  },
+ 
 })
+
+
