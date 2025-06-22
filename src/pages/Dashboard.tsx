@@ -7,6 +7,7 @@ import { noteSchema} from '../utils/validation'
 import type { NoteFormData } from '../utils/validation'
 import { Trash2 } from 'lucide-react'
 import toast from 'react-hot-toast'
+import axios from 'axios'
 
 
 interface Note {
@@ -57,7 +58,7 @@ const Dashboard = () => {
     const fetchNotes = async () => {
         setIsLoading(true)
         try {
-            const response = await api.get('/notes',{withCredentials: true})
+            const response = await axios.get('/notes',{withCredentials: true})
             if (response.data.success) {
                 setNotes(response.data.data.notes)
             }
@@ -74,7 +75,7 @@ const Dashboard = () => {
     const onCreateNote = async (data: NoteFormData) => {
         setIsCreating(true)
         try {
-            const response = await api.post('/notes', data, {withCredentials: true})
+            const response = await axios.post('/notes', data, {withCredentials: true})
             if (response.data.success) {
                 setNotes([response.data.data.note, ...notes])
                 setShowCreateForm(false)
@@ -91,7 +92,7 @@ const Dashboard = () => {
     const deleteNote = async (noteId: string) => {
       
         try {
-            await api.delete(`/notes/${noteId}`)
+            await axios.delete(`/notes/${noteId}`)
             setNotes(notes.filter(note => note._id !== noteId))
             toast.success('Note deleted successfully!')
         } catch (error: any) {
@@ -101,7 +102,7 @@ const Dashboard = () => {
 
     const handleLogout = async () => {
         try {
-            await api.post('/auth/logout',{},{withCredentials: true})
+            await axios.post('/auth/logout',{},{withCredentials: true})
             logout()
             toast.success('Logged out successfully!')
         } catch (error) {
