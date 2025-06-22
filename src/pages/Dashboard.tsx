@@ -63,7 +63,7 @@ const Dashboard = () => {
                 setNotes(response.data.data.notes)
             }
         } catch (error: any) {
-            toast.error('Failed to fetch notes')
+            // toast.error('Failed to fetch notes')
         } finally {
             setIsLoading(false)
         }
@@ -92,7 +92,10 @@ const Dashboard = () => {
     const deleteNote = async (noteId: string) => {
       
         try {
-            await api.delete(`/notes/${noteId}`)
+            await api.delete(`/notes/${noteId}`, {
+                withCredentials: true,
+            });
+              
             setNotes(notes.filter(note => note._id !== noteId))
             toast.success('Note deleted successfully!')
         } catch (error: any) {
