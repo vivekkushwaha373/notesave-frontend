@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
 import { AuthContext} from '../contexts/AuthContext'
-import { api } from '../utils/api'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { noteSchema} from '../utils/validation'
