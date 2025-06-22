@@ -120,9 +120,9 @@ const SignIn = () => {
                             )}
                         </div>
                         <div className='text-left'>
-                        <Link to="/forgot-password" className="text-sm ml-0 text-blue-600 hover:text-blue-700 font-medium">
+                        <p className="text-sm ml-0 text-blue-600 hover:text-blue-700 font-medium">
                             Forgot Password?
-                        </Link>
+                        </p>
 
                         </div>
                         <div className="flex items-center justify-between">
