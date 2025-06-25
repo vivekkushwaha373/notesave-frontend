@@ -55,10 +55,17 @@ const SignUp = () => {
         setIsLoading(true)
         try {
             const response = await api.post('/auth/register', data, { withCredentials: true })
-            if (response.data.success) {
+            if (response.data.success && response.data.otpRequired) {
+
                 setUserEmail(data.email)
                 setStep('otp')
                 toast.success('OTP sent to your email!')
+            }
+            else if (response.data.success && !response.data.otpRequired)
+            {
+                setUserEmail(data.email);
+                toast.success('Google User Registered!');
+                navigate('/signin');
             }
         } catch (error: any) {
             toast.error(error.response?.data?.message || 'Registration failed')
